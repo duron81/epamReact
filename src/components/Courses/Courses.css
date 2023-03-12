@@ -1,0 +1,12 @@
+.courses {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid aqua;
+}
+
+.searchPanel {
+    display: flex;
+    justify-content: space-between;
+}

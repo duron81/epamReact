@@ -24,7 +24,9 @@ const CourseCard = () => {
 				<p className='created'>
 					<strong>Created: </strong>some authors
 				</p>
-				<MyButton buttonText='Show course'></MyButton>
+				<div className='rightButton'>
+					<MyButton className='cardButton' buttonText='Show course'></MyButton>
+				</div>
 			</div>
 		</div>
 	);

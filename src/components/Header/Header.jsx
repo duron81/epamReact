@@ -7,7 +7,7 @@ const Header = () => {
 		<div className='header'>
 			<Logo />
 			<h2>Andriy</h2>
-			<MyButton buttonText='Log out' />
+			<MyButton className='headerButton' buttonText='Log out' />
 		</div>
 	);
 };

@@ -1,5 +1,5 @@
 import '../src/App.css';
-import CourseCard from './components/Courses/components/CourseCard/CourseCard';
+import Courses from './components/Courses/Courses';
 import Header from './components/Header/Header';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
 	return (
 		<div className='app'>
 			<Header />
-			<CourseCard />
+			<Courses />
 		</div>
 	);
 }

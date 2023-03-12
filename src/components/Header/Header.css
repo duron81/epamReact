@@ -6,9 +6,9 @@
 }
 
 .header h2 {
-    margin-left: 900px;
+    margin-left: 850px;
 }
 
-.headerButton {
-    color: red;
+.header .button {
+    width: 100px;
 }
