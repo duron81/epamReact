@@ -1,0 +1,8 @@
+.button {
+    height: 40px;
+    width: 100px;
+    border-color: blueviolet;
+    background-color: #fff;
+    vertical-align:middle;
+    border-radius: 5px;
+}
