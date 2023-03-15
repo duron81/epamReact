@@ -1,15 +1,28 @@
-import '../src/App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 import Courses from './components/Courses/Courses';
 import Header from './components/Header/Header';
+import CreateCourse from './components/CreateCourse/CreateCourse';
+
+import '../src/App.css';
 
 function App() {
 	// return <Logo />;
 
 	return (
-		<div className='app'>
-			<Header />
-			<Courses />
-		</div>
+		<Router>
+			<div className='app'>
+				<Header />
+				<Switch>
+					<Route exact path='/'>
+						<Courses />
+					</Route>
+					<Route exact path='/newcourse'>
+						<CreateCourse />
+					</Route>
+				</Switch>
+			</div>
+		</Router>
 	);
 }
 export default App;

@@ -1,4 +1,5 @@
 import MyButton from '../../../../common/Button/Button';
+import { pipeDuration } from '../../../../helpers/pipeDuration';
 import './CourseCard.css';
 
 const CourseCard = ({
@@ -8,25 +9,25 @@ const CourseCard = ({
 	duration,
 	authors,
 }) => {
-	function getHours(duration) {
-		let result = '';
-		let hours = Math.floor(+duration / 60);
-		let minutes = +duration % 60;
+	// function getHours(duration) {
+	// 	let result = '';
+	// 	let hours = Math.floor(+duration / 60);
+	// 	let minutes = +duration % 60;
 
-		if (hours < 10) {
-			result += `0${hours}:`;
-		} else {
-			result += hours + ':';
-		}
+	// 	if (hours < 10) {
+	// 		result += `0${hours}:`;
+	// 	} else {
+	// 		result += hours + ':';
+	// 	}
 
-		if (minutes < 10) {
-			result += `0${minutes}`;
-		} else {
-			result += minutes;
-		}
+	// 	if (minutes < 10) {
+	// 		result += `0${minutes}`;
+	// 	} else {
+	// 		result += minutes;
+	// 	}
 
-		return result;
-	}
+	// 	return result;
+	// }
 
 	return (
 		<div className='card'>
@@ -41,7 +42,7 @@ const CourseCard = ({
 				</p>
 				<p className='duration'>
 					<strong>Duration: </strong>
-					{getHours(duration)} hours
+					{pipeDuration(duration)} hours
 				</p>
 				<p className='created'>
 					<strong>Created: </strong>

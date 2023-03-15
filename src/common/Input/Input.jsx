@@ -6,7 +6,7 @@ const Input = (props) => {
 			<input
 				id='searchBarInput'
 				type='text'
-				placeholder={props.placeholdetText}
+				placeholder={props.placeholderText}
 				onChange={props.onChange}
 			/>
 			<label htmlFor='searchBarInput'></label>

@@ -1,6 +1,7 @@
-import '../Header/Header.css';
 import Logo from './components/Logo/Logo';
 import MyButton from '../../common/Button/Button';
+
+import '../Header/Header.css';
 
 const Header = () => {
 	return (

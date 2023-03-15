@@ -1,17 +1,20 @@
-import './Courses.css';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import CourseCard from './components/CourseCard/CourseCard';
 import SearchBar from './components/SearchBar/SearchBar';
 import MyButton from '../../common/Button/Button';
 import { mockedCoursesList } from '../../constants';
 import { mockedAuthorsList } from '../../constants';
-import { useEffect, useState } from 'react';
+
+import './Courses.css';
 
 const Courses = () => {
 	const [courses, setCourses] = useState(mockedCoursesList);
 	// const [search, setSearch] = useState('');
 
 	const searchMessage = (message) => {
-		console.log('message = ' + message);
+		// console.log('message = ' + message);
 
 		if (!message) {
 			return setCourses(mockedCoursesList);
@@ -24,6 +27,8 @@ const Courses = () => {
 		);
 		setCourses(arr);
 	};
+
+	mockedCoursesList.forEach((course) => console.log(course));
 
 	function renderItems(arr) {
 		const items = arr.map((item) => {
@@ -52,15 +57,13 @@ const Courses = () => {
 		return items;
 	}
 
-	useEffect(() => {
-		console.log('effect');
-	}, []);
-
 	return (
 		<div className='courses'>
 			<div className='searchPanel'>
 				<SearchBar searchMessage={searchMessage} />
-				<MyButton buttonText='Add new course' />
+				<Link to='/newcourse'>
+					<MyButton buttonText='Add new course' />
+				</Link>
 			</div>
 			{renderItems(courses)}
 		</div>
