@@ -110,7 +110,7 @@ const CreateCourse = () => {
 				authors: courseAuthorList.map((course) => course.id),
 			};
 			mockedCoursesList.push(newCourse);
-			history.push('/');
+			history.push('/courses');
 		}
 	}
 

@@ -1,5 +1,6 @@
 import MyButton from '../../../../common/Button/Button';
 import { pipeDuration } from '../../../../helpers/pipeDuration';
+
 import './CourseCard.css';
 
 const CourseCard = ({

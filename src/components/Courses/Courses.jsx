@@ -28,7 +28,7 @@ const Courses = () => {
 		setCourses(arr);
 	};
 
-	mockedCoursesList.forEach((course) => console.log(course));
+	// mockedCoursesList.forEach((course) => console.log(course));
 
 	function renderItems(arr) {
 		const items = arr.map((item) => {
