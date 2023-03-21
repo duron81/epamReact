@@ -8,6 +8,7 @@ import {
 import Courses from './components/Courses/Courses';
 import Header from './components/Header/Header';
 import CreateCourse from './components/CreateCourse/CreateCourse';
+import CourseInfo from './components/CourseInfo/CourseInfo';
 
 import { useState, useEffect } from 'react';
 
@@ -58,11 +59,14 @@ function App() {
 					<Route exact path='/login'>
 						<Login receiveUserName={receiveUserName} />
 					</Route>
+					<Route exact path='/courses/add'>
+						<CreateCourse />
+					</Route>
 					<Route exact path='/courses'>
 						<Courses />
 					</Route>
-					<Route exact path='/newcourse'>
-						<CreateCourse />
+					<Route exact path='/courses/:courseId'>
+						<CourseInfo />
 					</Route>
 				</Switch>
 			</div>

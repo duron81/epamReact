@@ -1,0 +1,36 @@
+.courseInfoBlock {
+    border: 2px solid aqua;
+    padding: 20px;
+}
+
+.courseInfoBlock button {
+    border: none;
+}
+
+.courseInfoBlock h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.courseInfoGridBlock {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 200px;
+}
+
+.courseInfoGridBlockLeft {
+    padding: 0 30px;
+}
+
+.courseInfoGridBlockRight p {
+    margin-bottom: 10px;
+}
+
+.courseInfoGridBlockRight ul {
+    padding-left: 0;
+}
+
+.courseInfoGridBlockRight li {
+    list-style-type: none;
+    margin-bottom: 5px;
+}

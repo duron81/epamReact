@@ -11,7 +11,6 @@ import './Courses.css';
 
 const Courses = () => {
 	const [courses, setCourses] = useState(mockedCoursesList);
-	// const [search, setSearch] = useState('');
 
 	const searchMessage = (message) => {
 		// console.log('message = ' + message);
@@ -28,11 +27,9 @@ const Courses = () => {
 		setCourses(arr);
 	};
 
-	// mockedCoursesList.forEach((course) => console.log(course));
-
 	function renderItems(arr) {
 		const items = arr.map((item) => {
-			let { title, description, creationDate, duration, authors } = item;
+			let { id, title, description, creationDate, duration, authors } = item;
 
 			let result = [];
 			authors.forEach((authorId) => {
@@ -46,6 +43,7 @@ const Courses = () => {
 
 			return (
 				<CourseCard
+					id={id}
 					title={title}
 					description={description}
 					creationDate={creationDate.replaceAll('/', ':')}
@@ -61,7 +59,7 @@ const Courses = () => {
 		<div className='courses'>
 			<div className='searchPanel'>
 				<SearchBar searchMessage={searchMessage} />
-				<Link to='/newcourse'>
+				<Link to='/courses/add'>
 					<MyButton buttonText='Add new course' />
 				</Link>
 			</div>
