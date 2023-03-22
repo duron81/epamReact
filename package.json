@@ -1,5 +1,6 @@
 {
   "name": "courses-app",
+  "author": "Andriy Tabachnikov",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
