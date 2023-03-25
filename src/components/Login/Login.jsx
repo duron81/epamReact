@@ -6,7 +6,7 @@ import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import './Login.css';
 
-const Login = ({ receiveUserName }) => {
+function Login({ receiveUserName }) {
 	const history = useHistory();
 
 	const [userEmail, setUserEmail] = useState('');
@@ -74,6 +74,6 @@ const Login = ({ receiveUserName }) => {
 			</form>
 		</>
 	);
-};
+}
 
 export default Login;

@@ -11,7 +11,7 @@ import { dateGenerator } from '../../helpers/dateGenerator';
 
 import './CreateCourse.css';
 
-const CreateCourse = () => {
+function CreateCourse() {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [newAuthor, setNewAuthor] = useState('');
@@ -77,13 +77,6 @@ const CreateCourse = () => {
 		setAuthorsList([...authorsList, newAuthor]);
 		mockedAuthorsList.push(newAuthor);
 	}
-
-	const checked =
-		courseAuthorList.length === 0 ? (
-			<h4>Author list is empty</h4>
-		) : (
-			renderCourseAuthorsList(courseAuthorList)
-		);
 
 	function validation() {
 		if (
@@ -172,12 +165,16 @@ const CreateCourse = () => {
 					</div>
 					<div className='chosenAuthorsList'>
 						<h3>Course authors</h3>
-						{checked}
+						{courseAuthorList.length === 0 ? (
+							<h4>Author list is empty</h4>
+						) : (
+							renderCourseAuthorsList(courseAuthorList)
+						)}
 					</div>
 				</div>
 			</div>
 		</section>
 	);
-};
+}
 
 export default CreateCourse;

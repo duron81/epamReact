@@ -6,20 +6,14 @@ import { pipeDuration } from '../../../../helpers/pipeDuration';
 
 import './CourseCard.css';
 
-const CourseCard = ({
+function CourseCard({
 	id,
 	title,
 	description,
 	creationDate,
 	duration,
 	authors,
-}) => {
-	// const history = useHistory();
-
-	// function showCourseInfo() {
-	// 	history.push({`/courses/${id}`});
-	// }
-
+}) {
 	return (
 		<div className='card'>
 			<div className='leftSide'>
@@ -50,6 +44,6 @@ const CourseCard = ({
 			</div>
 		</div>
 	);
-};
+}
 
 export default CourseCard;

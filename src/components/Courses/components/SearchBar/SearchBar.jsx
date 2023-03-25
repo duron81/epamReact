@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Input from '../../../../common/Input/Input';
 import MyButton from '../../../../common/Button/Button';
 
-const SearchBar = ({ searchMessage }) => {
+function SearchBar({ searchMessage }) {
 	const [search, setSearch] = useState('');
 
 	const searchClicked = () => {
@@ -20,6 +20,6 @@ const SearchBar = ({ searchMessage }) => {
 			<MyButton onClick={searchClicked} buttonText='Search' />
 		</div>
 	);
-};
+}
 
 export default SearchBar;

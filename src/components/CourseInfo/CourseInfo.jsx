@@ -7,7 +7,7 @@ import MyButton from '../../common/Button/Button';
 import { pipeDuration } from '../../helpers/pipeDuration';
 import './CourseInfo.css';
 
-const CourseInfo = () => {
+function CourseInfo() {
 	const { courseId } = useParams();
 
 	const singleCourse = mockedCoursesList.filter((item) => item.id === courseId);
@@ -58,6 +58,6 @@ const CourseInfo = () => {
 			</div>
 		</div>
 	);
-};
+}
 
 export default CourseInfo;

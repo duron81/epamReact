@@ -7,12 +7,11 @@ import dataContext from '../../helpers/context';
 
 import '../Header/Header.css';
 
-const Header = ({ receiveUserName }) => {
+function Header({ receiveUserName }) {
 	const context = useContext(dataContext);
 	const history = useHistory();
 
 	function onLogout() {
-		// context = '';
 		receiveUserName('');
 		localStorage.removeItem('token');
 		history.push('/login');
@@ -33,6 +32,6 @@ const Header = ({ receiveUserName }) => {
 			{result}
 		</div>
 	);
-};
+}
 
 export default Header;

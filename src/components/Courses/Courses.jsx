@@ -9,12 +9,10 @@ import { mockedAuthorsList } from '../../constants';
 
 import './Courses.css';
 
-const Courses = () => {
+function Courses() {
 	const [courses, setCourses] = useState(mockedCoursesList);
 
 	const searchMessage = (message) => {
-		// console.log('message = ' + message);
-
 		if (!message) {
 			return setCourses(mockedCoursesList);
 		}
@@ -66,6 +64,6 @@ const Courses = () => {
 			{renderItems(courses)}
 		</div>
 	);
-};
+}
 
 export default Courses;

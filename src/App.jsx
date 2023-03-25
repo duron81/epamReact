@@ -20,11 +20,8 @@ import dataContext from './helpers/context';
 const { Provider } = dataContext;
 
 function App() {
-	// return <Logo />;
 	const [userName, setUserName] = useState('');
 	const ifLogged = localStorage.getItem('token') != null;
-
-	// console.log(localStorage.getItem('token'));
 
 	useEffect(() => {
 		const item = JSON.parse(localStorage.getItem('token'));
@@ -34,9 +31,7 @@ function App() {
 	}, []);
 
 	function receiveUserName(name) {
-		// console.log(name);
 		setUserName(name);
-		// console.log(userName);
 	}
 
 	return (
