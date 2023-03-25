@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
 
 import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
@@ -8,15 +9,20 @@ import { mockedAuthorsList } from '../../constants';
 import { mockedCoursesList } from '../../constants';
 import { pipeDuration } from '../../helpers/pipeDuration';
 import { dateGenerator } from '../../helpers/dateGenerator';
+import { authorsCreated } from '../../store/authors/actionCreators';
+import { coursesCreated } from '../../store/courses/actionCreators';
 
 import './CreateCourse.css';
 
 const CreateCourse = () => {
+	const dispatch = useDispatch();
+	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
+
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [newAuthor, setNewAuthor] = useState('');
 	const [duration, setDuration] = useState('');
-	const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
+	const [authorsList, setAuthorsList] = useState(authorsFromStore);
 	const [courseAuthorList, setCourseAuthorList] = useState([]);
 	const history = useHistory();
 
@@ -75,15 +81,8 @@ const CreateCourse = () => {
 			name: author,
 		};
 		setAuthorsList([...authorsList, newAuthor]);
-		mockedAuthorsList.push(newAuthor);
+		dispatch(authorsCreated(newAuthor));
 	}
-
-	const checked =
-		courseAuthorList.length === 0 ? (
-			<h4>Author list is empty</h4>
-		) : (
-			renderCourseAuthorsList(courseAuthorList)
-		);
 
 	function validation() {
 		if (
@@ -109,7 +108,8 @@ const CreateCourse = () => {
 				duration: duration,
 				authors: courseAuthorList.map((course) => course.id),
 			};
-			mockedCoursesList.push(newCourse);
+			dispatch(coursesCreated(newCourse));
+			// mockedCoursesList.push(newCourse);
 			history.push('/courses');
 		}
 	}
@@ -118,7 +118,7 @@ const CreateCourse = () => {
 		<section className='create'>
 			<div className='createTitleBlock'>
 				<div className='inputTitle'>
-					<label for='createTitleInput'>Title</label>
+					<label htmlFor='createTitleInput'>Title</label>
 					<Input
 						name='createTitleInput'
 						type='text'
@@ -129,7 +129,7 @@ const CreateCourse = () => {
 				<MyButton onClick={CreateCourse} buttonText='Create Course' />
 			</div>
 			<div className='createDescriptionBlock'>
-				<label for='createDescr'>Description</label>
+				<label htmlFor='createDescr'>Description</label>
 				<textarea
 					name='createDescr'
 					type='text'
@@ -141,7 +141,7 @@ const CreateCourse = () => {
 				<div className='leftBlock'>
 					<div className='addAuthor'>
 						<h3>Add author</h3>
-						<label for='addAuthorName'>Author name</label>
+						<label htmlFor='addAuthorName'>Author name</label>
 						<Input
 							name='addAuthorName'
 							type='text'
@@ -155,7 +155,7 @@ const CreateCourse = () => {
 					</div>
 					<div className='addDuration'>
 						<h3>Duration</h3>
-						<label for='addDuration'>Duration</label>
+						<label htmlFor='addDuration'>Duration</label>
 						<Input
 							name='addDuration'
 							type='text'
@@ -172,7 +172,11 @@ const CreateCourse = () => {
 					</div>
 					<div className='chosenAuthorsList'>
 						<h3>Course authors</h3>
-						{checked}
+						{courseAuthorList.length === 0 ? (
+							<h4>Author list is empty</h4>
+						) : (
+							renderCourseAuthorsList(courseAuthorList)
+						)}
 					</div>
 				</div>
 			</div>

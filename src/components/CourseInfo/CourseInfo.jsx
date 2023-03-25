@@ -21,7 +21,7 @@ const CourseInfo = () => {
 			if (filterResult.length === 0) {
 				return false;
 			} else {
-				return <li>{filterResult[0].name}</li>;
+				return <li key={filterResult[0].id}> {filterResult[0].name}</li>;
 			}
 		});
 		return items;

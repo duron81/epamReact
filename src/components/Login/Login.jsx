@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
+import { loginUser } from '../../services';
 import './Login.css';
 
 const Login = ({ receiveUserName }) => {
@@ -36,7 +37,9 @@ const Login = ({ receiveUserName }) => {
 				},
 			});
 			const result = await response.json();
-			console.log(result);
+
+			// const result =  loginUser(user);
+			// console.log(result);
 			if (result.successful) {
 				localStorage.setItem('token', JSON.stringify(result));
 				history.push('/courses');
