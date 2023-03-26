@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { mockedCoursesList, mockedAuthorsList } from '../../constants';
 
 import MyButton from '../../common/Button/Button';
@@ -10,13 +11,16 @@ import './CourseInfo.css';
 const CourseInfo = () => {
 	const { courseId } = useParams();
 
-	const singleCourse = mockedCoursesList.filter((item) => item.id === courseId);
+	const coursesFromStore = useSelector((state) => state.coursesReducer.courses);
+	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
+
+	const singleCourse = coursesFromStore.filter((item) => item.id === courseId);
 
 	const [course, setCourse] = useState(singleCourse[0]);
 
 	function renderAuthors(authors) {
 		const items = authors.map((item) => {
-			const authorNamesArr = mockedAuthorsList;
+			const authorNamesArr = authorsFromStore;
 			const filterResult = authorNamesArr.filter((i) => i.id === item);
 			if (filterResult.length === 0) {
 				return false;

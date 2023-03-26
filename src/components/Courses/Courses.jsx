@@ -14,13 +14,13 @@ import './Courses.css';
 
 const Courses = () => {
 	const dispatch = useDispatch();
-	const courses2 = useSelector((state) => state.coursesReducer.courses);
+	const coursesFromStore = useSelector((state) => state.coursesReducer.courses);
 	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
 
 	const [message, setMessage] = useState('');
 
 	useEffect(() => {
-		if (courses2.length === 0) {
+		if (coursesFromStore.length === 0) {
 			fetch('http://localhost:4000/courses/all')
 				.then((response) => response.json())
 				.then((data) => {
@@ -38,9 +38,9 @@ const Courses = () => {
 
 	function filteredCourses() {
 		if (message === '') {
-			return renderItems(courses2);
+			return renderItems(coursesFromStore);
 		} else {
-			const result = courses2.filter(
+			const result = coursesFromStore.filter(
 				(course) =>
 					course.title.toLowerCase().includes(message.toLowerCase()) ||
 					course.id.toLowerCase().includes(message.toLowerCase())
@@ -48,8 +48,6 @@ const Courses = () => {
 			return renderItems(result);
 		}
 	}
-
-	// console.log(courses2);
 
 	const searchMessage = (message) => {
 		setMessage(message);

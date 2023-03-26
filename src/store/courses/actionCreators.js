@@ -11,3 +11,10 @@ export const coursesCreated = (course) => {
 		payload: course,
 	};
 };
+
+export const coursesDeleted = (course) => {
+	return {
+		type: 'COURSES_DELETED',
+		payload: course,
+	};
+};
