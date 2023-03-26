@@ -10,41 +10,34 @@ import Header from './components/Header/Header';
 import CreateCourse from './components/CreateCourse/CreateCourse';
 import CourseInfo from './components/CourseInfo/CourseInfo';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { userLogIn } from './store/user/actionCreators';
 
 import '../src/App.css';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
-import dataContext from './helpers/context';
-
-const { Provider } = dataContext;
 
 function App() {
-	// return <Logo />;
-	const [userName, setUserName] = useState('');
+	const dispatch = useDispatch();
 	const ifLogged = localStorage.getItem('token') != null;
-
-	// console.log(localStorage.getItem('token'));
 
 	useEffect(() => {
 		const item = JSON.parse(localStorage.getItem('token'));
 		if (item) {
-			setUserName(item.user.name);
+			const user = {
+				token: item,
+				name: item.user.name,
+				email: item.user.email,
+			};
+			dispatch(userLogIn(user));
 		}
 	}, []);
-
-	function receiveUserName(name) {
-		// console.log(name);
-		setUserName(name);
-		// console.log(userName);
-	}
 
 	return (
 		<Router>
 			<div className='app'>
-				<Provider value={userName}>
-					<Header receiveUserName={receiveUserName} />
-				</Provider>
+				<Header />
 				<Switch>
 					<Route
 						exact
@@ -57,7 +50,7 @@ function App() {
 						<Registration />
 					</Route>
 					<Route exact path='/login'>
-						<Login receiveUserName={receiveUserName} />
+						<Login />
 					</Route>
 					<Route exact path='/courses/add'>
 						<CreateCourse />

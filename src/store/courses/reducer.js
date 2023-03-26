@@ -2,7 +2,7 @@ const coursesInitialState = {
 	courses: [],
 };
 
-const coursesReducer = (state = coursesInitialState, action) => {
+function coursesReducer(state = coursesInitialState, action) {
 	switch (action.type) {
 		case 'COURSES_FETCHED':
 			return {
@@ -22,6 +22,6 @@ const coursesReducer = (state = coursesInitialState, action) => {
 		default:
 			return state;
 	}
-};
+}
 
 export default coursesReducer;

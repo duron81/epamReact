@@ -2,7 +2,7 @@ const authorsInitialState = {
 	authors: [],
 };
 
-const authorReducer = (state = authorsInitialState, action) => {
+function authorReducer(state = authorsInitialState, action) {
 	switch (action.type) {
 		case 'AUTHORS_FETCHED':
 			return {
@@ -17,6 +17,6 @@ const authorReducer = (state = authorsInitialState, action) => {
 		default:
 			return state;
 	}
-};
+}
 
 export default authorReducer;

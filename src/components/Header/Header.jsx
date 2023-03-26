@@ -1,24 +1,24 @@
-import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Logo from './components/Logo/Logo';
 import MyButton from '../../common/Button/Button';
-import dataContext from '../../helpers/context';
+import { userLogOut } from '../../store/user/actionCreators';
 
 import '../Header/Header.css';
 
-const Header = ({ receiveUserName }) => {
-	const context = useContext(dataContext);
+function Header({ receiveUserName }) {
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const userNameFromStore = useSelector((state) => state.userReducer.name);
 
 	function onLogout() {
-		// context = '';
-		receiveUserName('');
 		localStorage.removeItem('token');
+		dispatch(userLogOut());
 		history.push('/login');
 	}
 
-	const result = context ? (
+	const result = userNameFromStore ? (
 		<MyButton
 			className='headerButton'
 			buttonText='Log out'
@@ -29,10 +29,10 @@ const Header = ({ receiveUserName }) => {
 	return (
 		<div className='header'>
 			<Logo />
-			<h2>{context}</h2>
+			<h2>{userNameFromStore}</h2>
 			{result}
 		</div>
 	);
-};
+}
 
 export default Header;

@@ -5,14 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import CourseCard from './components/CourseCard/CourseCard';
 import SearchBar from './components/SearchBar/SearchBar';
 import MyButton from '../../common/Button/Button';
-import { mockedCoursesList } from '../../constants';
-import { mockedAuthorsList } from '../../constants';
 import { coursesFetched } from '../../store/courses/actionCreators';
 import { authorsFetched } from '../../store/authors/actionCreators';
 
 import './Courses.css';
 
-const Courses = () => {
+function Courses() {
 	const dispatch = useDispatch();
 	const coursesFromStore = useSelector((state) => state.coursesReducer.courses);
 	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
@@ -49,9 +47,9 @@ const Courses = () => {
 		}
 	}
 
-	const searchMessage = (message) => {
+	function searchMessage(message) {
 		setMessage(message);
-	};
+	}
 
 	function renderItems(arr) {
 		const items = arr.map((item) => {
@@ -93,6 +91,6 @@ const Courses = () => {
 			{filteredCourses()}
 		</div>
 	);
-};
+}
 
 export default Courses;

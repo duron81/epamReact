@@ -1,6 +1,6 @@
 import './Input.css';
 
-const Input = (props) => {
+function Input(props) {
 	return (
 		<>
 			<input
@@ -12,6 +12,6 @@ const Input = (props) => {
 			<label htmlFor='searchBarInput'></label>
 		</>
 	);
-};
+}
 
 export default Input;

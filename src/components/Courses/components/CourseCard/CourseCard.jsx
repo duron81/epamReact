@@ -7,14 +7,14 @@ import { coursesDeleted } from '../../../../store/courses/actionCreators';
 
 import './CourseCard.css';
 
-const CourseCard = ({
+function CourseCard({
 	id,
 	title,
 	description,
 	creationDate,
 	duration,
 	authors,
-}) => {
+}) {
 	const dispatch = useDispatch();
 
 	return (
@@ -52,6 +52,6 @@ const CourseCard = ({
 			</div>
 		</div>
 	);
-};
+}
 
 export default CourseCard;

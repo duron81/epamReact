@@ -1,11 +1,12 @@
-export const userLogIn = () => {
+export function userLogIn(user) {
 	return {
 		type: 'USER_LOGIN',
+		payload: user,
 	};
-};
+}
 
-export const userLogOut = () => {
+export function userLogOut() {
 	return {
 		type: 'USER_LOGOUT',
 	};
-};
+}

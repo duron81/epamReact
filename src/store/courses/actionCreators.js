@@ -1,20 +1,20 @@
-export const coursesFetched = (course) => {
+export function coursesFetched(course) {
 	return {
 		type: 'COURSES_FETCHED',
 		payload: course,
 	};
-};
+}
 
-export const coursesCreated = (course) => {
+export function coursesCreated(course) {
 	return {
 		type: 'COURSES_CREATED',
 		payload: course,
 	};
-};
+}
 
-export const coursesDeleted = (course) => {
+export function coursesDeleted(courseId) {
 	return {
 		type: 'COURSES_DELETED',
-		payload: course,
+		payload: courseId,
 	};
-};
+}

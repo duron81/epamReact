@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
-import { mockedAuthorsList } from '../../constants';
-import { mockedCoursesList } from '../../constants';
 import { pipeDuration } from '../../helpers/pipeDuration';
 import { dateGenerator } from '../../helpers/dateGenerator';
 import { authorsCreated } from '../../store/authors/actionCreators';
@@ -14,7 +12,7 @@ import { coursesCreated } from '../../store/courses/actionCreators';
 
 import './CreateCourse.css';
 
-const CreateCourse = () => {
+function CreateCourse() {
 	const dispatch = useDispatch();
 	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
 
@@ -28,9 +26,9 @@ const CreateCourse = () => {
 
 	function renderAuthorsList(authorsList) {
 		const items = authorsList.map((author) => {
-			let { name } = author;
+			let { name, id } = author;
 			return (
-				<div className='authorItem'>
+				<div key={id} className='authorItem'>
 					<p>{name}</p>
 					<MyButton
 						buttonText='Add author'
@@ -44,9 +42,9 @@ const CreateCourse = () => {
 
 	function renderCourseAuthorsList(authorsList) {
 		const items = authorsList.map((author) => {
-			let { name } = author;
+			let { name, id } = author;
 			return (
-				<div className='authorItem'>
+				<div key={id} className='authorItem'>
 					<p>{name}</p>
 					<MyButton
 						buttonText='Delete author'
@@ -109,7 +107,6 @@ const CreateCourse = () => {
 				authors: courseAuthorList.map((course) => course.id),
 			};
 			dispatch(coursesCreated(newCourse));
-			// mockedCoursesList.push(newCourse);
 			history.push('/courses');
 		}
 	}
@@ -182,6 +179,6 @@ const CreateCourse = () => {
 			</div>
 		</section>
 	);
-};
+}
 
 export default CreateCourse;

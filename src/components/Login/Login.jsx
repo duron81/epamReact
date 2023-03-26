@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
-import { loginUser } from '../../services';
+import { userLogIn } from '../../store/user/actionCreators';
 import './Login.css';
 
-const Login = ({ receiveUserName }) => {
+function Login() {
 	const history = useHistory();
+	const dispatch = useDispatch();
 
 	const [userEmail, setUserEmail] = useState('');
 	const [userPassword, setUserPassword] = useState('');
@@ -37,13 +39,12 @@ const Login = ({ receiveUserName }) => {
 				},
 			});
 			const result = await response.json();
-
-			// const result =  loginUser(user);
-			// console.log(result);
 			if (result.successful) {
 				localStorage.setItem('token', JSON.stringify(result));
+				user.token = result;
+				user.name = result.user.name;
 				history.push('/courses');
-				receiveUserName(result.user.name);
+				dispatch(userLogIn(user));
 			}
 		}
 	}
@@ -77,6 +78,6 @@ const Login = ({ receiveUserName }) => {
 			</form>
 		</>
 	);
-};
+}
 
 export default Login;

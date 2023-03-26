@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import './Registration.css';
 
-const Registration = () => {
+function Registration() {
 	const [registrationName, setRegistrationName] = useState('');
 	const [registrationEmail, setRegistrationEmail] = useState('');
 	const [registrationPassword, setRegistrationPassword] = useState('');
@@ -83,6 +83,6 @@ const Registration = () => {
 			</form>
 		</>
 	);
-};
+}
 
 export default Registration;
