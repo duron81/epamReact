@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import { userLogIn } from '../../store/user/actionCreators';
+import { loginUser } from '../../services';
 import './Login.css';
 
 function Login() {
@@ -31,14 +32,7 @@ function Login() {
 				password: userPassword,
 			};
 
-			const response = await fetch('http://localhost:4000/login', {
-				method: 'POST',
-				body: JSON.stringify(user),
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
-			const result = await response.json();
+			const result = await loginUser(user);
 			if (result.successful) {
 				localStorage.setItem('token', JSON.stringify(result));
 				user.token = result;

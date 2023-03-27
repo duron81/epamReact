@@ -7,6 +7,7 @@ import SearchBar from './components/SearchBar/SearchBar';
 import MyButton from '../../common/Button/Button';
 import { coursesFetched } from '../../store/courses/actionCreators';
 import { authorsFetched } from '../../store/authors/actionCreators';
+import { getAllCoursesFromAPI, getAllAuthorsFromAPI } from '../../services';
 
 import './Courses.css';
 
@@ -19,18 +20,14 @@ function Courses() {
 
 	useEffect(() => {
 		if (coursesFromStore.length === 0) {
-			fetch('http://localhost:4000/courses/all')
-				.then((response) => response.json())
-				.then((data) => {
-					dispatch(coursesFetched(data.result));
-				});
+			getAllCoursesFromAPI().then((data) =>
+				dispatch(coursesFetched(data.result))
+			);
 		}
 		if (authorsFromStore.length === 0) {
-			fetch('http://localhost:4000/authors/all')
-				.then((response) => response.json())
-				.then((data) => {
-					dispatch(authorsFetched(data.result));
-				});
+			getAllAuthorsFromAPI().then((data) =>
+				dispatch(authorsFetched(data.result))
+			);
 		}
 	}, []);
 
