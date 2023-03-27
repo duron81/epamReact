@@ -12,6 +12,7 @@ import { getAllCoursesFromAPI, getAllAuthorsFromAPI } from '../../services';
 import './Courses.css';
 
 function Courses() {
+
 	const dispatch = useDispatch();
 	const coursesFromStore = useSelector((state) => state.coursesReducer.courses);
 	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
@@ -41,6 +42,7 @@ function Courses() {
 					course.id.toLowerCase().includes(message.toLowerCase())
 			);
 			return renderItems(result);
+
 		}
 	}
 

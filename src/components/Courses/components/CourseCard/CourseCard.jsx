@@ -15,6 +15,7 @@ function CourseCard({
 	duration,
 	authors,
 }) {
+
 	const dispatch = useDispatch();
 
 	return (

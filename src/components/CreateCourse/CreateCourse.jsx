@@ -13,6 +13,7 @@ import { coursesCreated } from '../../store/courses/actionCreators';
 import './CreateCourse.css';
 
 function CreateCourse() {
+
 	const dispatch = useDispatch();
 	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
 
