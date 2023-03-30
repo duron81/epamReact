@@ -1,29 +1,54 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CourseCard from './components/CourseCard/CourseCard';
 import SearchBar from './components/SearchBar/SearchBar';
 import MyButton from '../../common/Button/Button';
-import { mockedCoursesList } from '../../constants';
-import { mockedAuthorsList } from '../../constants';
+import { coursesFetched } from '../../store/courses/actionCreators';
+import { authorsFetched } from '../../store/authors/actionCreators';
+import { getAllCoursesFromAPI, getAllAuthorsFromAPI } from '../../services';
 
 import './Courses.css';
 
 function Courses() {
-	const [courses, setCourses] = useState(mockedCoursesList);
 
-	const searchMessage = (message) => {
-		if (!message) {
-			return setCourses(mockedCoursesList);
+	const dispatch = useDispatch();
+	const coursesFromStore = useSelector((state) => state.coursesReducer.courses);
+	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
+
+	const [message, setMessage] = useState('');
+
+	useEffect(() => {
+		if (coursesFromStore.length === 0) {
+			getAllCoursesFromAPI().then((data) =>
+				dispatch(coursesFetched(data.result))
+			);
 		}
+		if (authorsFromStore.length === 0) {
+			getAllAuthorsFromAPI().then((data) =>
+				dispatch(authorsFetched(data.result))
+			);
+		}
+	}, []);
 
-		let arr = courses.filter(
-			(course) =>
-				course.title.toLowerCase().includes(message.toLowerCase()) ||
-				course.id.toLowerCase().includes(message.toLowerCase())
-		);
-		setCourses(arr);
-	};
+	function filteredCourses() {
+		if (message === '') {
+			return renderItems(coursesFromStore);
+		} else {
+			const result = coursesFromStore.filter(
+				(course) =>
+					course.title.toLowerCase().includes(message.toLowerCase()) ||
+					course.id.toLowerCase().includes(message.toLowerCase())
+			);
+			return renderItems(result);
+
+		}
+	}
+
+	function searchMessage(message) {
+		setMessage(message);
+	}
 
 	function renderItems(arr) {
 		const items = arr.map((item) => {
@@ -31,7 +56,7 @@ function Courses() {
 
 			let result = [];
 			authors.forEach((authorId) => {
-				mockedAuthorsList.map((author) => {
+				authorsFromStore.map((author) => {
 					if (author.id === authorId) {
 						result.push(author.name);
 					}
@@ -41,6 +66,7 @@ function Courses() {
 
 			return (
 				<CourseCard
+					key={id}
 					id={id}
 					title={title}
 					description={description}
@@ -61,7 +87,7 @@ function Courses() {
 					<MyButton buttonText='Add new course' />
 				</Link>
 			</div>
-			{renderItems(courses)}
+			{filteredCourses()}
 		</div>
 	);
 }

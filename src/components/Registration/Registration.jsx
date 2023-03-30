@@ -1,8 +1,10 @@
-import MyButton from '../../common/Button/Button';
-import Input from '../../common/Input/Input';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
+import MyButton from '../../common/Button/Button';
+import Input from '../../common/Input/Input';
+import { registerUser } from '../../services';
 
 import './Registration.css';
 
@@ -33,14 +35,7 @@ function Registration() {
 				password: registrationPassword,
 			};
 
-			const response = await fetch('http://localhost:4000/register', {
-				method: 'POST',
-				body: JSON.stringify(newUser),
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
-			const result = await response.json();
+			const result = registerUser(newUser);
 			if (result.successful) {
 				history.push('/login');
 			}

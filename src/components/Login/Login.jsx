@@ -1,13 +1,18 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
+import { userLogIn } from '../../store/user/actionCreators';
+import { loginUser } from '../../services';
 import './Login.css';
 
-function Login({ receiveUserName }) {
+
+function Login() {
 	const history = useHistory();
+	const dispatch = useDispatch();
 
 	const [userEmail, setUserEmail] = useState('');
 	const [userPassword, setUserPassword] = useState('');
@@ -28,19 +33,13 @@ function Login({ receiveUserName }) {
 				password: userPassword,
 			};
 
-			const response = await fetch('http://localhost:4000/login', {
-				method: 'POST',
-				body: JSON.stringify(user),
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
-			const result = await response.json();
-			console.log(result);
+			const result = await loginUser(user);
 			if (result.successful) {
 				localStorage.setItem('token', JSON.stringify(result));
+				user.token = result;
+				user.name = result.user.name;
 				history.push('/courses');
-				receiveUserName(result.user.name);
+				dispatch(userLogIn(user));
 			}
 		}
 	}

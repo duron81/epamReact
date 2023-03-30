@@ -1,8 +1,9 @@
-// import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import MyButton from '../../../../common/Button/Button';
 import { pipeDuration } from '../../../../helpers/pipeDuration';
+import { coursesDeleted } from '../../../../store/courses/actionCreators';
 
 import './CourseCard.css';
 
@@ -14,6 +15,9 @@ function CourseCard({
 	duration,
 	authors,
 }) {
+
+	const dispatch = useDispatch();
+
 	return (
 		<div className='card'>
 			<div className='leftSide'>
@@ -34,12 +38,17 @@ function CourseCard({
 					{creationDate}
 				</p>
 				<div className='rightButton'>
-					<Link to={`/courses/${id}`}>
-						<MyButton
-							className='cardButton'
-							buttonText='Show course'
-						></MyButton>
-					</Link>
+					<div className='cardButtonInfo'>
+						<Link to={`/courses/${id}`}>
+							<MyButton buttonText='Show course'></MyButton>
+						</Link>
+					</div>
+					<div className='cardButtonUpdate'>
+						<MyButton />
+					</div>
+					<div className='cardButtonDelete'>
+						<MyButton onClick={() => dispatch(coursesDeleted(id))} />
+					</div>
 				</div>
 			</div>
 		</div>

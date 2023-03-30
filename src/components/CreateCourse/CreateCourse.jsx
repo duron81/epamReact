@@ -1,30 +1,35 @@
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
 
 import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
-import { mockedAuthorsList } from '../../constants';
-import { mockedCoursesList } from '../../constants';
 import { pipeDuration } from '../../helpers/pipeDuration';
 import { dateGenerator } from '../../helpers/dateGenerator';
+import { authorsCreated } from '../../store/authors/actionCreators';
+import { coursesCreated } from '../../store/courses/actionCreators';
 
 import './CreateCourse.css';
 
 function CreateCourse() {
+
+	const dispatch = useDispatch();
+	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
+
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [newAuthor, setNewAuthor] = useState('');
 	const [duration, setDuration] = useState('');
-	const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
+	const [authorsList, setAuthorsList] = useState(authorsFromStore);
 	const [courseAuthorList, setCourseAuthorList] = useState([]);
 	const history = useHistory();
 
 	function renderAuthorsList(authorsList) {
 		const items = authorsList.map((author) => {
-			let { name } = author;
+			let { name, id } = author;
 			return (
-				<div className='authorItem'>
+				<div key={id} className='authorItem'>
 					<p>{name}</p>
 					<MyButton
 						buttonText='Add author'
@@ -38,9 +43,9 @@ function CreateCourse() {
 
 	function renderCourseAuthorsList(authorsList) {
 		const items = authorsList.map((author) => {
-			let { name } = author;
+			let { name, id } = author;
 			return (
-				<div className='authorItem'>
+				<div key={id} className='authorItem'>
 					<p>{name}</p>
 					<MyButton
 						buttonText='Delete author'
@@ -75,7 +80,7 @@ function CreateCourse() {
 			name: author,
 		};
 		setAuthorsList([...authorsList, newAuthor]);
-		mockedAuthorsList.push(newAuthor);
+		dispatch(authorsCreated(newAuthor));
 	}
 
 	function validation() {
@@ -102,7 +107,7 @@ function CreateCourse() {
 				duration: duration,
 				authors: courseAuthorList.map((course) => course.id),
 			};
-			mockedCoursesList.push(newCourse);
+			dispatch(coursesCreated(newCourse));
 			history.push('/courses');
 		}
 	}
@@ -111,7 +116,7 @@ function CreateCourse() {
 		<section className='create'>
 			<div className='createTitleBlock'>
 				<div className='inputTitle'>
-					<label for='createTitleInput'>Title</label>
+					<label htmlFor='createTitleInput'>Title</label>
 					<Input
 						name='createTitleInput'
 						type='text'
@@ -122,7 +127,7 @@ function CreateCourse() {
 				<MyButton onClick={CreateCourse} buttonText='Create Course' />
 			</div>
 			<div className='createDescriptionBlock'>
-				<label for='createDescr'>Description</label>
+				<label htmlFor='createDescr'>Description</label>
 				<textarea
 					name='createDescr'
 					type='text'
@@ -134,7 +139,7 @@ function CreateCourse() {
 				<div className='leftBlock'>
 					<div className='addAuthor'>
 						<h3>Add author</h3>
-						<label for='addAuthorName'>Author name</label>
+						<label htmlFor='addAuthorName'>Author name</label>
 						<Input
 							name='addAuthorName'
 							type='text'
@@ -148,7 +153,7 @@ function CreateCourse() {
 					</div>
 					<div className='addDuration'>
 						<h3>Duration</h3>
-						<label for='addDuration'>Duration</label>
+						<label htmlFor='addDuration'>Duration</label>
 						<Input
 							name='addDuration'
 							type='text'

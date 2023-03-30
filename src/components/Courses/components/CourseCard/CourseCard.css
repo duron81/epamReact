@@ -17,6 +17,7 @@
 .rightButton {
     display: flex;
     justify-content: center;
+    gap: 10px;
 }
 
 .card .button {
@@ -30,4 +31,20 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.cardButtonUpdate .button {
+    width: 50px;
+    background-image: url(../../../../resources/pen-solid.svg);
+    background-repeat:no-repeat;
+    background-position: center;
+    background-size: 40%;
+}
+
+.cardButtonDelete .button {
+    width: 50px;
+    background-image: url(../../../../resources/trash-can-solid.svg);
+    background-repeat:no-repeat;
+    background-position: center;
+    background-size: 40%;
 }
