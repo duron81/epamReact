@@ -8,6 +8,7 @@ function Input(props) {
 				type='text'
 				placeholder={props.placeholderText}
 				onChange={props.onChange}
+				value={props.value}
 			/>
 			<label htmlFor='searchBarInput'></label>
 		</>

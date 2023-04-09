@@ -5,32 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import CourseCard from './components/CourseCard/CourseCard';
 import SearchBar from './components/SearchBar/SearchBar';
 import MyButton from '../../common/Button/Button';
-import { coursesFetched } from '../../store/courses/actionCreators';
-import { authorsFetched } from '../../store/authors/actionCreators';
-import { getAllCoursesFromAPI, getAllAuthorsFromAPI } from '../../services';
+import { fetchAllCourses } from '../../store/courses/thunk';
+import { fetchAllAuthors } from '../../store/authors/thunk';
+import { setAdminRole } from '../../store/user/actionCreators';
+import { getUserRole } from '../../services';
 
 import './Courses.css';
 
 function Courses() {
-
 	const dispatch = useDispatch();
 	const coursesFromStore = useSelector((state) => state.coursesReducer.courses);
 	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
+	const userTokenFromStore = useSelector((state) => state.userReducer);
 
 	const [message, setMessage] = useState('');
-
-	useEffect(() => {
-		if (coursesFromStore.length === 0) {
-			getAllCoursesFromAPI().then((data) =>
-				dispatch(coursesFetched(data.result))
-			);
-		}
-		if (authorsFromStore.length === 0) {
-			getAllAuthorsFromAPI().then((data) =>
-				dispatch(authorsFetched(data.result))
-			);
-		}
-	}, []);
 
 	function filteredCourses() {
 		if (message === '') {
@@ -42,17 +30,13 @@ function Courses() {
 					course.id.toLowerCase().includes(message.toLowerCase())
 			);
 			return renderItems(result);
-
 		}
-	}
-
-	function searchMessage(message) {
-		setMessage(message);
 	}
 
 	function renderItems(arr) {
 		const items = arr.map((item) => {
 			let { id, title, description, creationDate, duration, authors } = item;
+			creationDate = creationDate.replaceAll('/', ':');
 
 			let result = [];
 			authors.forEach((authorId) => {
@@ -70,7 +54,7 @@ function Courses() {
 					id={id}
 					title={title}
 					description={description}
-					creationDate={creationDate.replaceAll('/', ':')}
+					creationDate={creationDate}
 					duration={duration}
 					authors={result}
 				/>
@@ -78,6 +62,30 @@ function Courses() {
 		});
 		return items;
 	}
+
+	//прокидываю пропсы из нижнего компонента SearchBar в верхний через функцию searchMessage
+	function searchMessage(message) {
+		setMessage(message);
+	}
+
+	useEffect(() => {
+		if (coursesFromStore.length === 0) {
+			dispatch(fetchAllCourses());
+		}
+		if (authorsFromStore.length === 0) {
+			dispatch(fetchAllAuthors());
+		}
+		getUserRole(userTokenFromStore.token.result).then((data) => {
+			if (data.result.role === 'admin') {
+				let temp = JSON.parse(localStorage.getItem('token'));
+				temp.user.role = 'admin';
+				temp.user.name = 'Admin';
+				localStorage.removeItem('token');
+				localStorage.setItem('token', JSON.stringify(temp));
+				dispatch(setAdminRole());
+			}
+		});
+	}, []);
 
 	return (
 		<div className='courses'>

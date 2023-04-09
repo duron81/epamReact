@@ -3,6 +3,7 @@ const userInitialState = {
 	name: '',
 	email: '',
 	token: '',
+	role: '',
 };
 
 function userReducer(state = userInitialState, action) {
@@ -14,6 +15,7 @@ function userReducer(state = userInitialState, action) {
 				name: action.payload.name,
 				email: action.payload.email,
 				token: action.payload.token,
+				role: action.payload.role,
 			};
 		case 'USER_LOGOUT':
 			return {
@@ -22,6 +24,12 @@ function userReducer(state = userInitialState, action) {
 				name: '',
 				email: '',
 				token: '',
+			};
+		case 'SET_ADMIN_ROLE':
+			return {
+				...state,
+				role: 'admin',
+				name: 'Admin',
 			};
 		default:
 			return state;
