@@ -12,9 +12,9 @@ function CourseInfo() {
 	const coursesFromStore = useSelector((state) => state.coursesReducer.courses);
 	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
 
-	const singleCourse = coursesFromStore.filter((item) => item.id === courseId);
+	const singleCourse = coursesFromStore.find((item) => item.id === courseId);
 	const { title, description, id, duration, creationDate, authors } =
-		singleCourse[0];
+		singleCourse;
 
 	return (
 		<div className='courseInfoBlock'>

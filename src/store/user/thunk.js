@@ -2,19 +2,30 @@ import { userLogIn } from './actionCreators';
 import { userLogOut } from './actionCreators';
 import { setAdminRole } from './actionCreators';
 
-export const logOutUser = (token) => (dispatch) => {
+export const logOutUser = (token) => async (dispatch) => {
 	// console.log(token);
-	fetch(`http://localhost:4000/logout`, {
-		method: 'DELETE',
-		headers: {
-			Authorization: token,
-		},
-	})
-		.then(() => {
-			// console.log(result);
-			dispatch(userLogOut());
-		})
-		.catch((error) => new Error(error));
+	try {
+		await fetch(`http://localhost:4000/logout`, {
+			method: 'DELETE',
+			headers: {
+				Authorization: token,
+			},
+		});
+		dispatch(userLogOut());
+	} catch (error) {
+		new Error(error);
+	}
+	// fetch(`http://localhost:4000/logout`, {
+	// 	method: 'DELETE',
+	// 	headers: {
+	// 		Authorization: token,
+	// 	},
+	// })
+	// 	.then(() => {
+	// 		// console.log(result);
+	// 		dispatch(userLogOut());
+	// 	})
+	// 	.catch((error) => new Error(error));
 };
 
 export const getUserRole = (userToken) => (dispatch) => {

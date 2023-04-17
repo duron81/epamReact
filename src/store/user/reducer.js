@@ -18,13 +18,7 @@ function userReducer(state = userInitialState, action) {
 				role: action.payload.role,
 			};
 		case 'USER_LOGOUT':
-			return {
-				...state,
-				isAuth: false,
-				name: '',
-				email: '',
-				token: '',
-			};
+			return userInitialState;
 		case 'SET_ADMIN_ROLE':
 			return {
 				...state,
