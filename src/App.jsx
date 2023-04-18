@@ -6,9 +6,10 @@ import {
 } from 'react-router-dom';
 
 import Courses from './components/Courses/Courses';
-import Header from './components/Header/Header';
-import CreateCourse from './components/CreateCourse/CreateCourse';
+import CreateForm from './components/CreateForm/CreateForm';
 import CourseInfo from './components/CourseInfo/CourseInfo';
+import Header from './components/Header/Header';
+import PrivateRouter from './components/PrivateRouter/PrivateRouter';
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -34,7 +35,6 @@ function App() {
 		}
 	}, []);
 
-
 	return (
 		<Router>
 			<div className='app'>
@@ -53,15 +53,25 @@ function App() {
 					<Route exact path='/login'>
 						<Login />
 					</Route>
-					<Route exact path='/courses/add'>
-						<CreateCourse />
-					</Route>
+					<PrivateRouter
+						exact
+						path='/courses/add'
+						component={CreateForm}
+					></PrivateRouter>
 					<Route exact path='/courses'>
 						<Courses />
 					</Route>
 					<Route exact path='/courses/:courseId'>
 						<CourseInfo />
 					</Route>
+					<PrivateRouter
+						exact
+						path='/courses/update/:courseId'
+						component={CreateForm}
+						desc={'update'}
+					>
+						{/* <CreateForm desc={'update'} /> */}
+					</PrivateRouter>
 				</Switch>
 			</div>
 		</Router>

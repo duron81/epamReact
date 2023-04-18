@@ -12,50 +12,50 @@ function CourseInfo() {
 	const coursesFromStore = useSelector((state) => state.coursesReducer.courses);
 	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
 
-	const singleCourse = coursesFromStore.filter((item) => item.id === courseId);
-
-	const course = singleCourse[0];
-
-	function renderAuthors(authors) {
-		const items = authors.map((item) => {
-			const authorNamesArr = authorsFromStore;
-			const filterResult = authorNamesArr.filter((i) => i.id === item);
-			if (filterResult.length === 0) {
-				return false;
-			} else {
-				return <li key={filterResult[0].id}> {filterResult[0].name}</li>;
-			}
-		});
-		return items;
-	}
+	const singleCourse = coursesFromStore.find((item) => item.id === courseId);
+	const { title, description, id, duration, creationDate, authors } =
+		singleCourse;
 
 	return (
 		<div className='courseInfoBlock'>
 			<Link to='/courses'>
 				<MyButton buttonText='< Back to courses' />
 			</Link>
-			<h2>{course.title}</h2>
+			<h2>{title}</h2>
 			<div className='courseInfoGridBlock'>
 				<div className='courseInfoGridBlockLeft'>
-					<p>{course.description}</p>
+					<p>{description}</p>
 				</div>
 				<div className='courseInfoGridBlockRight'>
 					<p>
 						<strong>ID: </strong>
-						{course.id}
+						{id}
 					</p>
 					<p>
 						<strong>Duration: </strong>
-						{pipeDuration(course.duration)} hours
+						{pipeDuration(duration)} hours
 					</p>
 					<p>
 						<strong>Created: </strong>
-						{course.creationDate.replaceAll('/', ':')}
+						{creationDate.replaceAll('/', ':')}
 					</p>
 					<p>
 						<strong>Authors: </strong>
 					</p>
-					<ul>{renderAuthors(course.authors)}</ul>
+					<ul>
+						{authors.map((item) => {
+							const filterResult = authorsFromStore.filter(
+								(i) => i.id === item
+							);
+							if (filterResult.length === 0) {
+								return false;
+							} else {
+								return (
+									<li key={filterResult[0].id}> {filterResult[0].name}</li>
+								);
+							}
+						})}
+					</ul>
 				</div>
 			</div>
 		</div>

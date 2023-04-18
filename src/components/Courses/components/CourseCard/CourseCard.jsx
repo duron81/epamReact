@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import MyButton from '../../../../common/Button/Button';
 import { pipeDuration } from '../../../../helpers/pipeDuration';
-import { coursesDeleted } from '../../../../store/courses/actionCreators';
+import { deleteCourse } from '../../../../store/courses/thunk';
 
 import './CourseCard.css';
 
@@ -15,8 +15,13 @@ function CourseCard({
 	duration,
 	authors,
 }) {
-
 	const dispatch = useDispatch();
+	const userTokenFromStore = useSelector((state) => state.userReducer);
+
+	const ifVisible =
+		userTokenFromStore.role === 'admin'
+			? { display: 'block' }
+			: { display: 'none' };
 
 	return (
 		<div className='card'>
@@ -43,11 +48,17 @@ function CourseCard({
 							<MyButton buttonText='Show course'></MyButton>
 						</Link>
 					</div>
-					<div className='cardButtonUpdate'>
-						<MyButton />
+					<div className='cardButtonUpdate' style={ifVisible}>
+						<Link to={`/courses/update/${id}`}>
+							<MyButton />
+						</Link>
 					</div>
-					<div className='cardButtonDelete'>
-						<MyButton onClick={() => dispatch(coursesDeleted(id))} />
+					<div className='cardButtonDelete' style={ifVisible}>
+						<MyButton
+							onClick={() =>
+								dispatch(deleteCourse(id, userTokenFromStore.token.result))
+							}
+						/>
 					</div>
 				</div>
 			</div>

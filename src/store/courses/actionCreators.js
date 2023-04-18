@@ -18,3 +18,10 @@ export function coursesDeleted(courseId) {
 		payload: courseId,
 	};
 }
+
+export function coursesUpdated(course) {
+	return {
+		type: 'COURSES_UPDATED',
+		payload: course,
+	};
+}

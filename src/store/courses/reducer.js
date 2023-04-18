@@ -19,6 +19,17 @@ function coursesReducer(state = coursesInitialState, action) {
 				...state,
 				courses: state.courses.filter((item) => item.id !== action.payload),
 			};
+		case 'COURSES_UPDATED':
+			return {
+				...state,
+				courses: state.courses.map((item) => {
+					// console.log(item.id);
+					if (item.id === action.payload.id) {
+						item = action.payload;
+					}
+					return item;
+				}),
+			};
 		default:
 			return state;
 	}

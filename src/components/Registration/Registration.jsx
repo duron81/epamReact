@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import { registerUser } from '../../services';
+import { IsValidRegistration } from '../../utils';
 
 import './Registration.css';
 
@@ -14,19 +15,15 @@ function Registration() {
 	const [registrationPassword, setRegistrationPassword] = useState('');
 	const history = useHistory();
 
-	function validation() {
-		if (
-			registrationName === '' ||
-			registrationEmail === '' ||
-			registrationPassword === ''
-		) {
-			return false;
-		} else return true;
-	}
-
-	async function CreateNewLogin(e) {
+	function CreateNewLogin(e) {
 		e.preventDefault();
-		if (!validation()) {
+		if (
+			!IsValidRegistration(
+				registrationName,
+				registrationEmail,
+				registrationPassword
+			)
+		) {
 			alert('Please, fill in all fields');
 		} else {
 			const newUser = {
@@ -35,10 +32,11 @@ function Registration() {
 				password: registrationPassword,
 			};
 
-			const result = registerUser(newUser);
-			if (result.successful) {
-				history.push('/login');
-			}
+			registerUser(newUser).then((result) => {
+				if (result.successful) {
+					history.push('/login');
+				}
+			});
 		}
 	}
 

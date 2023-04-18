@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom';
-import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
@@ -9,21 +9,33 @@ import { pipeDuration } from '../../helpers/pipeDuration';
 import { dateGenerator } from '../../helpers/dateGenerator';
 import { authorsCreated } from '../../store/authors/actionCreators';
 import { coursesCreated } from '../../store/courses/actionCreators';
+import { updateCourse } from '../../store/courses/thunk';
+import { isValidNewCourse } from '../../utils';
+import { addNewAuthor, addNewCourse } from '../../services';
 
-import './CreateCourse.css';
+import './CreateForm.css';
 
-function CreateCourse() {
-
+function CreateForm({ desc }) {
 	const dispatch = useDispatch();
+	const history = useHistory();
+	const { courseId } = useParams();
 	const authorsFromStore = useSelector((state) => state.authorReducer.authors);
+	const userTokenFromStore = useSelector((state) => state.userReducer);
+	const coursesFromStore = useSelector((state) => state.coursesReducer.courses);
+	const currentCourse = coursesFromStore.filter(
+		(course) => course.id === courseId
+	);
 
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
+	const [description, setDescription] = useState(
+		desc ? currentCourse[0].description : ''
+	);
 	const [newAuthor, setNewAuthor] = useState('');
-	const [duration, setDuration] = useState('');
+	const [duration, setDuration] = useState(
+		desc ? currentCourse[0].duration : ''
+	);
 	const [authorsList, setAuthorsList] = useState(authorsFromStore);
 	const [courseAuthorList, setCourseAuthorList] = useState([]);
-	const history = useHistory();
+	const [title, setTitle] = useState(desc ? currentCourse[0].title : '');
 
 	function renderAuthorsList(authorsList) {
 		const items = authorsList.map((author) => {
@@ -71,46 +83,93 @@ function CreateCourse() {
 		);
 	}
 
-	function createNewAuthor(author) {
+	async function createNewAuthor(author) {
 		if (author.length < 2) {
 			return;
 		}
-		const newAuthor = {
-			id: uuidv4(),
-			name: author,
-		};
-		setAuthorsList([...authorsList, newAuthor]);
-		dispatch(authorsCreated(newAuthor));
+
+		const response = await addNewAuthor(
+			author,
+			userTokenFromStore.token.result
+		);
+
+		if (response.successful) {
+			setAuthorsList([
+				...authorsList,
+				{ id: response.result.id, name: response.result.name },
+			]);
+			dispatch(
+				authorsCreated({ name: response.result.name, id: response.result.id })
+			);
+		}
 	}
 
-	function validation() {
-		if (
-			title === '' ||
-			description === '' ||
-			duration === '' ||
-			isNaN(duration) ||
-			courseAuthorList.length === 0
-		) {
-			return false;
-		} else return true;
-	}
-
-	function CreateCourse() {
-		if (!validation()) {
+	async function CreateCourse() {
+		if (!isValidNewCourse(title, description, duration, courseAuthorList)) {
 			alert('Please, fill in all fields');
 		} else {
 			const newCourse = {
-				id: uuidv4(),
 				title: title,
 				description: description,
 				creationDate: dateGenerator(),
-				duration: duration,
+				duration: +duration,
 				authors: courseAuthorList.map((course) => course.id),
 			};
-			dispatch(coursesCreated(newCourse));
+
+			const response = await addNewCourse(
+				newCourse,
+				userTokenFromStore.token.result
+			);
+
+			if (response.successful) {
+				newCourse.id = response.result.id;
+				dispatch(coursesCreated(newCourse));
+				history.push('/courses');
+			} else {
+				throw new Error(response);
+			}
+		}
+	}
+
+	function UpdateCourse() {
+		if (!isValidNewCourse(title, description, duration, courseAuthorList)) {
+			alert('Please, fill in all fields');
+		} else {
+			const updatedCourse = {
+				title: title,
+				description: description,
+				duration: +duration,
+				authors: courseAuthorList.map((course) => course.id),
+			};
+			dispatch(
+				updateCourse(courseId, updatedCourse, userTokenFromStore.token.result)
+			);
 			history.push('/courses');
 		}
 	}
+
+	useEffect(() => {
+		if (desc) {
+			const authorsIdsForUpdate = currentCourse[0].authors;
+			let authorsForUpdate = [];
+			authorsIdsForUpdate.forEach((element) => {
+				let res = authorsFromStore.filter((author) => author.id === element);
+				authorsForUpdate.push(res[0]);
+			});
+
+			setCourseAuthorList(authorsForUpdate);
+
+			let authorsForUpdateNonSelected = authorsFromStore;
+			authorsForUpdate.map((element) => {
+				return (authorsForUpdateNonSelected =
+					authorsForUpdateNonSelected.filter((author) => author !== element));
+			});
+			setAuthorsList(authorsForUpdateNonSelected);
+		} else {
+			setCourseAuthorList([]);
+			setAuthorsList(authorsFromStore);
+		}
+	}, [desc]);
 
 	return (
 		<section className='create'>
@@ -121,10 +180,14 @@ function CreateCourse() {
 						name='createTitleInput'
 						type='text'
 						placeholderText='Enter title...'
+						value={title}
 						onChange={(e) => setTitle(e.target.value)}
 					/>
 				</div>
-				<MyButton onClick={CreateCourse} buttonText='Create Course' />
+				<MyButton
+					onClick={desc ? UpdateCourse : CreateCourse}
+					buttonText={desc ? 'Update Course' : 'Create Course'}
+				/>
 			</div>
 			<div className='createDescriptionBlock'>
 				<label htmlFor='createDescr'>Description</label>
@@ -132,6 +195,7 @@ function CreateCourse() {
 					name='createDescr'
 					type='text'
 					placeholder='Enter description'
+					value={description}
 					onChange={(e) => setDescription(e.target.value)}
 				/>
 			</div>
@@ -158,6 +222,7 @@ function CreateCourse() {
 							name='addDuration'
 							type='text'
 							placeholderText='Enter duration in minutes ...'
+							value={duration}
 							onChange={(e) => setDuration(e.target.value)}
 						/>
 						<h2>Duration: {pipeDuration(duration)} hours</h2>
@@ -182,4 +247,4 @@ function CreateCourse() {
 	);
 }
 
-export default CreateCourse;
+export default CreateForm;
