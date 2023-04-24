@@ -23,7 +23,6 @@ function coursesReducer(state = coursesInitialState, action) {
 			return {
 				...state,
 				courses: state.courses.map((item) => {
-					// console.log(item.id);
 					if (item.id === action.payload.id) {
 						item = action.payload;
 					}

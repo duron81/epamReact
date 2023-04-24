@@ -8,7 +8,6 @@ function PrivateRouter({ component: Component, ...rest }) {
 			{...rest}
 			render={(props) =>
 				userTokenFromStore === 'admin' ? (
-					// console.log(localStorage.getItem('token'));
 					<Component {...rest} />
 				) : (
 					<Redirect

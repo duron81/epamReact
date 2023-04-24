@@ -7,7 +7,6 @@ import MyButton from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import { userLogIn } from '../../store/user/actionCreators';
 import { loginUser } from '../../services';
-// import { loginUser } from '../../store/user/thunk';
 import { isValdLogin } from '../../utils';
 import './Login.css';
 
@@ -29,14 +28,9 @@ function Login() {
 				role: 'user',
 			};
 
-			// dispatch(loginUser(user));
-			// history.push('/courses');
-			// console.log('heress');
 			const result = await loginUser(user);
 			if (result.successful) {
-				console.log('login succefful');
 				result.user.role = 'user';
-				// console.log(result);
 				localStorage.setItem('token', JSON.stringify(result));
 				user.token = result;
 				user.name = result.user.name;
