@@ -12,9 +12,12 @@ function Header({ receiveUserName }) {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const userNameFromStore = useSelector((state) => state.userReducer.name);
+	// console.log('here');
+	// const userNameFromStore = 'john';
 	const userTokenFromStore = useSelector(
 		(state) => state.userReducer.token.result
 	);
+	// const userTokenFromStore = 'token';
 
 	function onLogout() {
 		dispatch(logOutUser(userTokenFromStore));
@@ -32,7 +35,7 @@ function Header({ receiveUserName }) {
 
 	return (
 		<div className='header'>
-			<Logo />
+			<Logo data-testid={'logoTest'} />
 			<h2>{userNameFromStore}</h2>
 			{result}
 		</div>

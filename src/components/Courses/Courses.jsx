@@ -50,6 +50,7 @@ function Courses() {
 
 			return (
 				<CourseCard
+					data-testid='courseCardTest'
 					key={id}
 					id={id}
 					title={title}
